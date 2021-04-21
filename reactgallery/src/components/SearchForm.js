@@ -1,6 +1,10 @@
 import React from 'react';
 
 export default class SearchForm extends React.Component  {
+    handleSubmit(e){
+        e.preventDefault();
+    }
+    
     render(){
         return(
             <form className="search-form">

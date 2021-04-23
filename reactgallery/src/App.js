@@ -3,7 +3,7 @@ import Nav from './components/Nav';
 import PhotoContainer from './components/PhotoContainer';
 import SearchForm from './components/SearchForm';
 import NotFound from './components/NotFound';
-import apiKey from '../config.js'
+import apiKey from './config.js'
 import {
   BrowserRouter as Router,
   Switch,

@@ -8,6 +8,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
+  Redirect,
 } from 'react-router-dom';
 import axios from 'axios';
 import React from 'react';
@@ -22,18 +23,56 @@ import React from 'react';
 
 class App extends React.Component {
   state = {
-    pics: []
+    pics: [],
+    dogPics: [],
+    catPics:[],
+    computerPics:[],
+    searchPics:[]
   }
   
   componentDidMount () {
     axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${key}&tags=fish&per_page=24&format=json&nojsoncallback=1`)
-      .then(res => {
-        console.log(res.data.photos.photo)
+      
+    .then(res => {
         this.setState({
           pics: res.data.photos.photo
         })
-      }).catch(error => {
+        return axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${key}&tags=dogs&per_page=24&format=json&nojsoncallback=1`)
+      })
+
+      .then(res => {
+        this.setState({
+          dogPics : res.data.photos.photo
+        })
+        return axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${key}&tags=cats&per_page=24&format=json&nojsoncallback=1`)
+      })
+      
+      .then(res => {
+        this.setState({
+          catPics : res.data.photos.photo
+        })
+        return axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${key}&tags=computers&per_page=24&format=json&nojsoncallback=1`)
+      })
+      
+      .then(res => {
+        this.setState({
+          computerPics : res.data.photos.photo
+        })
+      })
+  
+      .catch(error => {
         console.error('Error', error);
+      })
+  }
+
+  performSearch(query){
+    axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${key}&tags=?${query}&per_page=24&format=json&nojsoncallback=1`)
+      .then(res => {
+        this.setState({
+          searchPics: res.data.photos.photo
+        })
+      }).catch(err => {
+        console.error('There has been an error', err)
       })
   }
 
@@ -41,21 +80,26 @@ class App extends React.Component {
     return (
       <Router>
         <div className="container">
-          <SearchForm />
+          <SearchForm onSearch={this.performSearch.bind(this)} render={()=> (
+            <Redirect to="/search/query" />
+          )} />    
           <Nav />
           <Switch>
             <Route exact path="/">
               <PhotoContainer data={this.state.pics}/>
             </Route> 
             <Route exact path="/dogs">
-              <PhotoContainer data={this.state.pics}/>
+              <PhotoContainer data={this.state.dogPics}/>
             </Route>
             <Route exact path="/cats">
-              <PhotoContainer />
+              <PhotoContainer data={this.state.catPics}/>
             </Route>
             <Route exact path="/computers">
-              <PhotoContainer />
+              <PhotoContainer data={this.state.computerPics}/>
             </Route>
+            <Route path="/search/query" render={()=>{
+              <PhotoContainer data={this.state.searchPics} />
+            }}/>
             <Route>
               <NotFound />
             </Route>

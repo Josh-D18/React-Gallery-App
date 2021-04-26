@@ -10,43 +10,60 @@ import {
   Route,
 } from 'react-router-dom';
 import axios from 'axios';
+import React from 'react';
 
 
-// API Request
-const key = apiKey;
 
-function getApiFunction () {
-  axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${key}&format=json&nojsoncallback=1&auth_token=72157718990391011-547765c47ae4f80f&api_sig=305275fb6820cb25a6d3bd5728c9bf2e`)
-  .then(res => {
-    console.log(res.data)
-  })
+  // API Request
+
+  const key = apiKey;
+
+
+
+class App extends React.Component {
+  state = {
+    pics: []
+  }
   
-}
+  componentDidMount () {
+    axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${key}&tags=fish&per_page=24&format=json&nojsoncallback=1`)
+      .then(res => {
+        console.log(res.data.photos.photo)
+        this.setState({
+          pics: res.data.photos.photo
+        })
+      }).catch(error => {
+        console.error('Error', error);
+      })
+  }
 
-
-function App() {
-  getApiFunction()
-  return (
-    <Router>
-      <div className="container">
-      <Switch>
-        <Route exact path="/">
+  render(){
+    return (
+      <Router>
+        <div className="container">
           <SearchForm />
           <Nav />
-          <PhotoContainer />
-        </Route>
-        <Route path="/?search">
-          <SearchForm />
-          <Nav />
-          <PhotoContainer />
-        </Route>
-        <Route>
-          <NotFound />
-        </Route>
-      </Switch>
-      </div>
-    </Router>
-  );
+          <Switch>
+            <Route exact path="/">
+              <PhotoContainer data={this.state.pics}/>
+            </Route> 
+            <Route exact path="/dogs">
+              <PhotoContainer data={this.state.pics}/>
+            </Route>
+            <Route exact path="/cats">
+              <PhotoContainer />
+            </Route>
+            <Route exact path="/computers">
+              <PhotoContainer />
+            </Route>
+            <Route>
+              <NotFound />
+            </Route>
+          </Switch>
+        </div>
+      </Router>
+    );
+  }
 }
 
 export default App;

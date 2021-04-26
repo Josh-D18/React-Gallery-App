@@ -1,20 +1,25 @@
 import React from 'react';
 
-export default function Photo(){
+export default function Photo(props){
     return (
+        props.data.map((pics)=> {
+            // {console.log(pics)}
+            return (
         <ul>
             <li>
-                <img src="https://farm5.staticflickr.com/4334/37032996241_4c16a9b530.jpg" alt="" />
+                <img src={`https://farm5.staticflickr.com/${pics.server}/${pics.id}_${pics.secret}.jpg`} alt="" key={pics.id} />
             </li>
             <li>
-                <img src="https://farm5.staticflickr.com/4342/36338751244_316b6ee54b.jpg" alt="" />
+                <img src={`https://farm5.staticflickr.com/${pics.server}/${pics.id}_${pics.secret}.jpg`} key={pics.id} alt="" />
             </li>
             <li>
-                <img src="https://farm5.staticflickr.com/4343/37175099045_0d3a249629.jpg" alt="" />
+                <img src={`https://farm5.staticflickr.com/${pics.server}/${pics.id}_${pics.secret}.jpg`} alt="" key={pics.id}/>
             </li>
             <li>
-                <img src="https://farm5.staticflickr.com/4425/36337012384_ba3365621e.jpg" alt="" />
+                <img src={`https://farm5.staticflickr.com/${pics.server}/${pics.id}_${pics.secret}.jpg`} alt="" key={pics.id}/>
             </li>
         </ul>
+            )
+        })
     )
 }

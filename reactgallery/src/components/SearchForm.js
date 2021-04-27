@@ -6,6 +6,7 @@ export default class SearchForm extends React.Component  {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onSearchChange = this.onSearchChange.bind(this);
     }
+    
     state = {
         userText: ''
     }

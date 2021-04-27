@@ -7,8 +7,7 @@ import apiKey from './config.js'
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Redirect,
+  Route
 } from 'react-router-dom';
 import axios from 'axios';
 import React from 'react';
@@ -30,6 +29,8 @@ class App extends React.Component {
     searchPics:[]
   }
   
+
+  // Get data from the api and add photo objects to state
   componentDidMount () {
     axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${key}&tags=fish&per_page=24&format=json&nojsoncallback=1`)
       
@@ -65,8 +66,10 @@ class App extends React.Component {
       })
   }
 
+
+  // Search Form Function 
   performSearch(query){
-    axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${key}&tags=?${query}&per_page=24&format=json&nojsoncallback=1`)
+    axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${key}&tags=${query}&per_page=24&format=json&nojsoncallback=1`)
       .then(res => {
         this.setState({
           searchPics: res.data.photos.photo
@@ -80,9 +83,7 @@ class App extends React.Component {
     return (
       <Router>
         <div className="container">
-          <SearchForm onSearch={this.performSearch.bind(this)} render={()=> (
-            <Redirect to="/search/query" />
-          )} />    
+          <SearchForm onSearch={this.performSearch.bind(this)}/>    
           <Nav />
           <Switch>
             <Route exact path="/">

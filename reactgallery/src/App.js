@@ -86,24 +86,20 @@ class App extends React.Component {
           <SearchForm onSearch={this.performSearch.bind(this)}/>    
           <Nav />
           <Switch>
-            <Route exact path="/">
-              <PhotoContainer data={this.state.pics}/>
-            </Route> 
-            <Route exact path="/dogs">
-              <PhotoContainer data={this.state.dogPics}/>
-            </Route>
-            <Route exact path="/cats">
-              <PhotoContainer data={this.state.catPics}/>
-            </Route>
-            <Route exact path="/computers">
-              <PhotoContainer data={this.state.computerPics}/>
-            </Route>
-            <Route path="/search/query" render={()=>{
+            <Route exact path="/" component={() => (<PhotoContainer data={this.state.pics}/>)} />
+
+            <Route exact path="/dogs" component={() => (<PhotoContainer data={this.state.dogPics}/>)} />
+              
+            
+            <Route exact path="/cats" component={() => (<PhotoContainer data={this.state.catPics}/>)} />
+
+            <Route exact path="/computers" component={() => (<PhotoContainer data={this.state.computerPics}/>)} />
+            
+            <Route path="/search/query" render={()=>(
               <PhotoContainer data={this.state.searchPics} />
-            }}/>
-            <Route>
-              <NotFound />
-            </Route>
+            )}/>
+
+            <Route component={() => (<NotFound />)} />
           </Switch>
         </div>
       </Router>

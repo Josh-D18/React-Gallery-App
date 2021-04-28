@@ -95,7 +95,7 @@ class App extends React.Component {
 
             <Route exact path="/computers" component={() => (<PhotoContainer data={this.state.computerPics}/>)} />
             
-            <Route path="/search/query" render={()=>(
+            <Route path="/search/:query" render={()=>(
               <PhotoContainer data={this.state.searchPics} />
             )}/>
 

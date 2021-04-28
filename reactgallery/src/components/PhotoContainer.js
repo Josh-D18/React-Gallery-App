@@ -4,6 +4,7 @@ import Photo from './Photo';
 export default function PhotoContainer(props) {
     const results = props.data;
     
+    // Iterate through photo array
     let pics = results.map( pics => 
         <Photo data={pics} key={pics.id}/>
     )
